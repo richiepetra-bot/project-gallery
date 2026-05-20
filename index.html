@@ -378,6 +378,7 @@
       {
         name: "Kassza",
         url: "https://kassza.vercel.app",
+        image: "images/kassza.png",
         desc: "Családi pénzügyi alkalmazás háztartások számára. Tranzakciók nyomon követése, kiadások feltöltése, trendek elemzése és kiadási szabályok — mindezt átlátható, megosztható formában.",
         category: "Pénzügy",
         emoji: "💰",
@@ -386,6 +387,7 @@
       {
         name: "EV Cockpit",
         url: "https://ev-cockpit.vercel.app",
+        image: "images/ev-cockpit.png",
         desc: "Pénzügyi operáló rendszer egyéni vállalkozóknak. Biztonságos, titkosított adattárolással egyetlen centralizált felületen kezeled üzleti és pénzügyi feladataidat.",
         category: "Vállalkozás",
         emoji: "🚀",
@@ -394,6 +396,7 @@
       {
         name: "Yettel Dashboard",
         url: "https://yettel-dashboard.vercel.app",
+        image: "images/yettel-dashboard.png",
         desc: "Yettel mobilszámlák automatikus elemzője. PDF-feltöltéssel kinyeri a számlázási adatokat, megjeleníti és exportálja azokat — hosszú távú trendkövetésre is alkalmas.",
         category: "Elemző",
         emoji: "📊",
@@ -402,6 +405,7 @@
       {
         name: "Lízing Kalkulátor",
         url: "https://lizingkalkulator.vercel.app",
+        image: "images/lizingkalkulator.png",
         desc: "Autólízing összehasonlító eszköz vállalkozóknak. Zárt/nyílt végű pénzügyi lízing, operatív lízing és hitel egymás mellett — havi törlesztők, teljes költség és adózási vonzatok automatikus számítással.",
         category: "Pénzügy",
         emoji: "🚗",
@@ -434,10 +438,10 @@
         <article class="card">
           <div class="preview">
             <img
-              src="${SCREENSHOT(p.url)}"
+              src="${p.image || SCREENSHOT(p.url)}"
               alt="${p.name} előnézet"
               loading="lazy"
-              onerror="this.style.opacity=0;this.nextElementSibling.style.display='flex'"
+              onerror="this.src='${SCREENSHOT(p.url)}';this.onerror=function(){this.style.opacity=0;this.nextElementSibling.style.display='flex'}"
             >
             <div class="preview-fallback" style="background:${p.gradient}">${p.emoji}</div>
           </div>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projektjeim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ===== LIGHT ===== */
+    html[data-theme="light"] {
+      --bg: #f0f2f5;
+      --surface: #ffffff;
+      --surface-hover: #fafafa;
+      --border: rgba(0,0,0,0.07);
+      --text-primary: #0f1117;
+      --text-secondary: #6b7280;
+      --accent: #4f46e5;
+      --accent-bg: #eef2ff;
+      --accent-text: #4f46e5;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.06);
+      --shadow-hover: 0 8px 36px rgba(0,0,0,0.13);
+      --switcher-bg: #ffffff;
+      --switcher-border: rgba(0,0,0,0.09);
+      --active-bg: #4f46e5;
+      --active-text: #ffffff;
+      --filter-bg: #ffffff;
+      --filter-border: rgba(0,0,0,0.09);
+      --preview-bg: #f3f4f6;
+      --footer-border: rgba(0,0,0,0.06);
+    }
+
+    /* ===== DARK ===== */
+    html[data-theme="dark"] {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-hover: #1c2128;
+      --border: rgba(255,255,255,0.07);
+      --text-primary: #e6edf3;
+      --text-secondary: #7d8590;
+      --accent: #79c0ff;
+      --accent-bg: rgba(121,192,255,0.1);
+      --accent-text: #79c0ff;
+      --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 20px rgba(0,0,0,0.25);
+      --shadow-hover: 0 8px 36px rgba(0,0,0,0.5);
+      --switcher-bg: #21262d;
+      --switcher-border: rgba(255,255,255,0.08);
+      --active-bg: #388bfd;
+      --active-text: #0d1117;
+      --filter-bg: #21262d;
+      --filter-border: rgba(255,255,255,0.08);
+      --preview-bg: #0d1117;
+      --footer-border: rgba(255,255,255,0.06);
+    }
+
+    /* ===== COLORFUL ===== */
+    html[data-theme="colorful"] {
+      --bg: #100828;
+      --surface: rgba(255,255,255,0.06);
+      --surface-hover: rgba(255,255,255,0.1);
+      --border: rgba(255,255,255,0.1);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,0.5);
+      --accent: #e879f9;
+      --accent-bg: rgba(232,121,249,0.14);
+      --accent-text: #e879f9;
+      --shadow: 0 4px 24px rgba(0,0,0,0.35);
+      --shadow-hover: 0 12px 48px rgba(0,0,0,0.55);
+      --switcher-bg: rgba(255,255,255,0.07);
+      --switcher-border: rgba(255,255,255,0.13);
+      --active-bg: #e879f9;
+      --active-text: #1a0040;
+      --filter-bg: rgba(255,255,255,0.06);
+      --filter-border: rgba(255,255,255,0.13);
+      --preview-bg: rgba(0,0,0,0.25);
+      --footer-border: rgba(255,255,255,0.07);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html[data-theme="colorful"] body {
+      background: linear-gradient(140deg, #1a0040 0%, #0d0a3e 40%, #0a1f50 70%, #091a2c 100%);
+      background-attachment: fixed;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      padding: 56px 0 40px;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .header-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .header-sub {
+      font-size: 0.975rem;
+      color: var(--text-secondary);
+      margin-top: 7px;
+      transition: color 0.3s ease;
+    }
+
+    /* ===== THEME SWITCHER ===== */
+    .switcher {
+      display: flex;
+      gap: 3px;
+      background: var(--switcher-bg);
+      border: 1px solid var(--switcher-border);
+      border-radius: 12px;
+      padding: 4px;
+      transition: background 0.3s ease, border-color 0.3s ease;
+      align-self: flex-start;
+    }
+
+    .theme-btn {
+      padding: 7px 15px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 500;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .theme-btn:hover:not(.active) {
+      color: var(--text-primary);
+      background: var(--surface-hover);
+    }
+
+    .theme-btn.active {
+      background: var(--active-bg);
+      color: var(--active-text);
+    }
+
+    /* ===== FILTER BAR ===== */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 100px;
+      border: 1px solid var(--filter-border);
+      background: var(--filter-bg);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover:not(.active) {
+      color: var(--text-primary);
+      border-color: var(--accent);
+    }
+
+    .filter-btn.active {
+      background: var(--active-bg);
+      border-color: var(--active-bg);
+      color: var(--active-text);
+    }
+
+    /* ===== GRID ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease, border-color 0.3s ease;
+    }
+
+    html[data-theme="colorful"] .card {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* Preview */
+    .preview {
+      height: 195px;
+      position: relative;
+      overflow: hidden;
+      background: var(--preview-bg);
+      flex-shrink: 0;
+    }
+
+    .preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover .preview img {
+      transform: scale(1.04);
+    }
+
+    .preview-fallback {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.25rem;
+    }
+
+    /* Body */
+    .card-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-text);
+      background: var(--accent-bg);
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 10px;
+      transition: color 0.3s ease, background 0.3s ease;
+    }
+
+    .card-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 8px;
+      transition: color 0.3s ease;
+    }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      flex: 1;
+      transition: color 0.3s ease;
+    }
+
+    /* Footer */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 18px;
+      gap: 12px;
+    }
+
+    .card-domain {
+      font-size: 0.73rem;
+      color: var(--text-secondary);
+      font-family: 'Courier New', monospace;
+      opacity: 0.75;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .open-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--active-bg);
+      color: var(--active-text);
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: inherit;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .open-btn:hover {
+      opacity: 0.82;
+      transform: scale(1.04);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid var(--footer-border);
+      padding: 20px 0 32px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 580px) {
+      header { padding: 40px 0 32px; }
+      .header-title { font-size: 1.8rem; }
+      .grid { grid-template-columns: 1fr; }
+      .switcher { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="header-row">
+        <div>
+          <h1 class="header-title">Projektjeim</h1>
+          <p class="header-sub">Elkészült webalkalmazások és eszközök</p>
+        </div>
+        <div class="switcher">
+          <button class="theme-btn" data-theme="light">&#9728; Világos</button>
+          <button class="theme-btn" data-theme="dark">&#9790; Sötét</button>
+          <button class="theme-btn" data-theme="colorful">&#10022; Színes</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="filter-bar" id="filterBar"></div>
+    <div class="grid" id="grid"></div>
+
+    <footer id="footer">3 projekt</footer>
+  </div>
+
+  <script>
+    /* ── PROJEKTEK ──────────────────────────────────────────────── */
+    const PROJECTS = [
+      {
+        name: "Kassza",
+        url: "https://kassza.vercel.app",
+        desc: "Családi pénzügyi alkalmazás háztartások számára. Tranzakciók nyomon követése, kiadások feltöltése, trendek elemzése és kiadási szabályok — mindezt átlátható, megosztható formában.",
+        category: "Pénzügy",
+        emoji: "💰",
+        gradient: "linear-gradient(135deg,#667eea,#764ba2)"
+      },
+      {
+        name: "EV Cockpit",
+        url: "https://ev-cockpit.vercel.app",
+        desc: "Pénzügyi operáló rendszer egyéni vállalkozóknak. Biztonságos, titkosított adattárolással egyetlen centralizált felületen kezeled üzleti és pénzügyi feladataidat.",
+        category: "Vállalkozás",
+        emoji: "🚀",
+        gradient: "linear-gradient(135deg,#f093fb,#f5576c)"
+      },
+      {
+        name: "Yettel Dashboard",
+        url: "https://yettel-dashboard.vercel.app",
+        desc: "Yettel mobilszámlák automatikus elemzője. PDF-feltöltéssel kinyeri a számlázási adatokat, megjeleníti és exportálja azokat — hosszú távú trendkövetésre is alkalmas.",
+        category: "Elemző",
+        emoji: "📊",
+        gradient: "linear-gradient(135deg,#4facfe,#00f2fe)"
+      },
+      {
+        name: "Lízing Kalkulátor",
+        url: "https://lizingkalkulator.vercel.app",
+        desc: "Autólízing összehasonlító eszköz vállalkozóknak. Zárt/nyílt végű pénzügyi lízing, operatív lízing és hitel egymás mellett — havi törlesztők, teljes költség és adózási vonzatok automatikus számítással.",
+        category: "Pénzügy",
+        emoji: "🚗",
+        gradient: "linear-gradient(135deg,#43e97b,#38f9d7)"
+      }
+    ];
+    /* ──────────────────────────────────────────────────────────── */
+
+    const SCREENSHOT = url =>
+      `https://image.thum.io/get/width/640/crop/390/${url}`;
+
+    let activeFilter = "Mind";
+
+    function cats() {
+      return ["Mind", ...new Set(PROJECTS.map(p => p.category))];
+    }
+
+    function renderFilters() {
+      document.getElementById("filterBar").innerHTML = cats()
+        .map(c => `<button class="filter-btn${c === activeFilter ? " active" : ""}" onclick="setFilter('${c}')">${c}</button>`)
+        .join("");
+    }
+
+    function renderCards() {
+      const list = activeFilter === "Mind"
+        ? PROJECTS
+        : PROJECTS.filter(p => p.category === activeFilter);
+
+      document.getElementById("grid").innerHTML = list.map(p => `
+        <article class="card">
+          <div class="preview">
+            <img
+              src="${SCREENSHOT(p.url)}"
+              alt="${p.name} előnézet"
+              loading="lazy"
+              onerror="this.style.opacity=0;this.nextElementSibling.style.display='flex'"
+            >
+            <div class="preview-fallback" style="background:${p.gradient}">${p.emoji}</div>
+          </div>
+          <div class="card-body">
+            <span class="tag">${p.category}</span>
+            <h2 class="card-name">${p.name}</h2>
+            <p class="card-desc">${p.desc}</p>
+            <div class="card-footer">
+              <span class="card-domain">${new URL(p.url).hostname}</span>
+              <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="open-btn">
+                Megnyitás
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                  <path d="M1.5 9.5L9.5 1.5M9.5 1.5H3.5M9.5 1.5V7.5"
+                    stroke="currentColor" stroke-width="1.6"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      document.getElementById("footer").textContent =
+        `${list.length} projekt`;
+    }
+
+    function setFilter(cat) {
+      activeFilter = cat;
+      renderFilters();
+      renderCards();
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      document.querySelectorAll(".theme-btn").forEach(b =>
+        b.classList.toggle("active", b.dataset.theme === theme)
+      );
+      localStorage.setItem("pf-theme", theme);
+    }
+
+    document.querySelectorAll(".theme-btn").forEach(b =>
+      b.addEventListener("click", () => setTheme(b.dataset.theme))
+    );
+
+    setTheme(localStorage.getItem("pf-theme") || "light");
+    renderFilters();
+    renderCards();
+  </script>
+</body>
+</html>
